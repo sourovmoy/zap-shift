@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #caeb66;
+  --color-secondary: #03373d;
+  --color-base-100: white;
+  --color-base-200: #606060;
+  --color-base-300: #33929d;
+  --color-base-400: #5b6a2e;
+}
+
+body {
+  font-family: "Urbanist", sans-serif;
+}
+
+.btn-primary {
+  background-color: #caeb66;
+  font-weight: 600;
+  /* padding: 8px 16px; */
+  border-radius: 16px;
+}
+.btn-primary:hover {
+  background: black;
+  transform: scale(1.02);
+  color: white;
+}
+.heading-primary {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 67px;
+  letter-spacing: 0;
+  text-align: left;
+  color: #03373d;
+}
+
+/* 📱 Small screens (phones) */
+@media (max-width: 640px) {
+  .heading-primary {
+    font-size: 28px;
+    line-height: 36px;
+    text-align: center;
+  }
+}
+
+/* 📱 Medium screens (tablets) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .heading-primary {
+    font-size: 40px;
+    line-height: 50px;
+    text-align: center;
+  }
+}
+
+/* 💻 Large screens (desktop) */
+@media (min-width: 1025px) {
+  .heading-primary {
+    font-size: 56px;
+    line-height: 67px;
+    text-align: left;
+  }
+}
+
+a.active {
+  border-radius: 50px;
+  background-color: #caeb66;
+  padding: 6px 16px 6px 16px;
+}
