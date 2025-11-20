@@ -6,7 +6,7 @@ import Footer from "../Shared/Footer";
 
 const HomeLayout = () => {
   return (
-    <div className="bg-[#DADADA] min-h-screen">
+    <div className="bg-[#DADADA] min-h-screen pt-10">
       <Container>
         <header>
           <Navbar />

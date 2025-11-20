@@ -10,6 +10,7 @@ import Loader from "../Components/Loader/Loader";
 import AuthLayOut from "../Layout/AuthLayOut";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
+import PrivetRoute from "../PrivetRoute/PrivetRoute";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +41,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/be-a-ride",
-        Component: BeARide,
+        element: (
+          <PrivetRoute>
+            <BeARide />
+          </PrivetRoute>
+        ),
       },
     ],
   },
