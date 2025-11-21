@@ -5,14 +5,16 @@ import { useNavigate } from "react-router";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
-  const { signInWithPopupFunc } = useAuth();
-  const handelGoogleSignIn = () => {
-    try {
-      signInWithPopupFunc().then(() => toast.success("SuccessFully Login"));
-      navigate("/");
-    } catch (err) {
-      toast.error(err.message);
-    }
+  const { signInWithPopupFunc, setUser } = useAuth();
+  const handelGoogleSignIn = async () => {
+    await signInWithPopupFunc()
+      .then((res) => {
+        // console.log(res.user);
+
+        setUser(res.user);
+        toast.success("SuccessFully Login"), navigate("/");
+      })
+      .catch((err) => toast.error(err.message));
   };
 
   return (

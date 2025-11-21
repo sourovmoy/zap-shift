@@ -11,6 +11,7 @@ import AuthLayOut from "../Layout/AuthLayOut";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
 import PrivetRoute from "../PrivetRoute/PrivetRoute";
+import SendParcel from "../Pages/SendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,15 @@ export const router = createBrowserRouter([
       {
         path: "/about-us",
         Component: AboutUs,
+      },
+      {
+        path: "/send-parcel",
+        element: (
+          <PrivetRoute>
+            <SendParcel />
+          </PrivetRoute>
+        ),
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
       },
       {
         path: "/pricing",

@@ -30,6 +30,9 @@ const Navbar = () => {
         <NavLink to={"/about-us"}>About Us</NavLink>
       </li>
       <li>
+        <NavLink to={"/send-parcel"}>Send Parcel</NavLink>
+      </li>
+      <li>
         <NavLink to={"/pricing"}>Pricing</NavLink>
       </li>
       <li>
@@ -37,6 +40,7 @@ const Navbar = () => {
       </li>
     </>
   );
+
   return (
     <div className="">
       <div className="navbar bg-base-100 shadow-sm rounded-2xl">
@@ -66,9 +70,8 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <a className="">
-            <Logo />
-          </a>
+
+          <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 font-medium text-base-400">
@@ -88,9 +91,10 @@ const Navbar = () => {
                   className="outline-3 rounded-full outline-lime-500"
                 >
                   <img
-                    className="rounded-full h-11"
+                    className="rounded-full h-11 w-11"
                     src={user?.photoURL}
                     alt=""
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <ul

@@ -1,26 +1,46 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import ButtonPri from "../../../Components/Button/ButtonPri";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import { useAuth } from "../../../Hooks/useAuth";
+import Loader from "../../../Components/Loader/Loader";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { signInWithEmailAndPasswordFunc, setLoader, loader } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
     // watch
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await signInWithEmailAndPasswordFunc(
+        data.email,
+        data.password
+      );
+      navigate(location.state || "/");
+      setLoader(false);
+      return res;
+    } catch (error) {
+      setLoader(false);
+      toast.error(error.message);
+    }
   };
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div>
       <h1 className="heading-primary mb-10">Login with ZapShift</h1>
 
       <div className="card w-full max-w-sm shrink-0 shadow-2xl sm:ml-20">
         <div className="card-body">
-          <form onClick={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset">
               <label className="label">Email</label>
               <input
@@ -58,7 +78,7 @@ const Login = () => {
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
-              <ButtonPri label={"Login"} />
+              <ButtonPri type="submit" label={"Login"} />
             </fieldset>
             <Link to={"/register"}>
               Already have an account?{" "}

@@ -1,18 +1,21 @@
 import React from "react";
 import ButtonPri from "../../../Components/Button/ButtonPri";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import axios from "axios";
 import { useAuth } from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import Loader from "../../../Components/Loader/Loader";
 
 const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     createUserWithEmailAndPasswordFunc,
     updateProfileFunc,
     setUser,
+    loader,
   } = useAuth();
   const {
     register,
@@ -25,7 +28,6 @@ const Register = () => {
     const name = data.name;
     createUserWithEmailAndPasswordFunc(data.email, data.password)
       .then((result) => {
-        console.log(result);
         const image = data.photo[0];
         const fromData = new FormData();
         fromData.append("image", image);
@@ -40,16 +42,19 @@ const Register = () => {
               displayName: name,
               photoURL: res.data.data.display_url,
             }),
-            navigate("/")
+            navigate(location.state || "/")
           )
         );
       })
-      .then((err) => {
+      .catch((err) => {
         if (err) {
           toast.error(err.message);
         }
       });
   };
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div>
       <h1 className="heading-primary mb-10">Create with ZapShift</h1>
@@ -117,7 +122,7 @@ const Register = () => {
               <ButtonPri label="Register" type="submit" />
             </fieldset>
 
-            <Link to="/login">
+            <Link state={location.state} to="/login">
               Already have an account?{" "}
               <span className="text-primary">Login</span>
             </Link>
