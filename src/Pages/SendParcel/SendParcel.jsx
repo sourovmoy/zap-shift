@@ -2,8 +2,13 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import ButtonPri from "../../Components/Button/ButtonPri";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
+import { useAuth } from "../../Hooks/useAuth";
 
 const SendParcel = () => {
+  const { user } = useAuth();
+  const axios = useAxios();
   const {
     register,
     control,
@@ -17,82 +22,77 @@ const SendParcel = () => {
 
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const receiverRegion = useWatch({ control, name: "receiverRegion" });
-
-  // const receiverDistrict = useWatch({ control, name: "receiverReligion" });
+  const parcelType = useWatch({ control, name: "parcelType" });
 
   const districtsByRegion = (region) => {
     const districtRegion = data.filter((c) => c.region === region);
     const district = districtRegion.map((d) => d.district);
     return district;
   };
-  const districts = [
-    "Bagerhat",
-    "Bandarban",
-    "Barguna",
-    "Barishal",
-    "Bhola",
-    "Bogura",
-    "Brahmanbaria",
-    "Chandpur",
-    "Chattogram",
-    "Chuadanga",
-    "Cox's Bazar",
-    "Cumilla",
-    "Dhaka",
-    "Dinajpur",
-    "Faridpur",
-    "Feni",
-    "Gaibandha",
-    "Gazipur",
-    "Gopalganj",
-    "Habiganj",
-    "Jamalpur",
-    "Jashore",
-    "Jhalokathi",
-    "Jhenaidah",
-    "Joypurhat",
-    "Khagrachari",
-    "Khulna",
-    "Kishoreganj",
-    "Kurigram",
-    "Kushtia",
-    "Lakshmipur",
-    "Lalmonirhat",
-    "Madaripur",
-    "Magura",
-    "Manikganj",
-    "Meherpur",
-    "Moulvibazar",
-    "Munshiganj",
-    "Mymensingh",
-    "Naogaon",
-    "Narail",
-    "Narayanganj",
-    "Narsingdi",
-    "Natore",
-    "Netrokona",
-    "Nilphamari",
-    "Noakhali",
-    "Pabna",
-    "Panchagarh",
-    "Patuakhali",
-    "Pirojpur",
-    "Rajbari",
-    "Rajshahi",
-    "Rangamati",
-    "Rangpur",
-    "Satkhira",
-    "Shariatpur",
-    "Sherpur",
-    "Sirajganj",
-    "Sunamganj",
-    "Sylhet",
-    "Tangail",
-    "Thakurgaon",
-  ];
+  // deliveryInstruction: "Et ex id eum sint ex";
+  // parcelName: "Scarlett Bray";
+  // parcelType: "non-document";
+  // parcelWeight: "72";
+  // pickupInstruction: "Rerum doloremque fug";
+  // receiverAddress: "Quis blanditiis in e";
+  // receiverDistrict: "Munshiganj";
+  // receiverName: "Phelan Hamilton";
+  // receiverPhone: "+1 (537) 593-7779";
+  // receiverRegion: "Dhaka";
+  // senderAddress: "Esse aute est sit ";
+  // senderDistrict: "Mymensingh";
+  // senderName: "Kyle Levine";
+  // senderPhone: "+1 (767) 114-3156";
+  // senderRegion: "Mymensingh";
 
   const onSubmit = (data) => {
-    console.log("Form Submitted:", data);
+    const weight = Number(data.parcelWeight);
+    const sameDistrict = data.receiverDistrict === data.senderDistrict;
+    const type = data.parcelType;
+    let cost = 0;
+    if (type === "document") {
+      cost = sameDistrict ? 60 : 80;
+    } else {
+      if (weight <= 3) {
+        cost = sameDistrict ? 110 : 150;
+      } else {
+        const extraWeight = weight - 3;
+        const extraCharge = extraWeight * 40;
+        const districtCharge = sameDistrict ? 110 : 150;
+        if (sameDistrict) {
+          cost = districtCharge + extraCharge;
+        } else {
+          cost = districtCharge + extraCharge + 40;
+        }
+      }
+    }
+    data.value = cost;
+    Swal.fire({
+      title: "Agree with our condition?",
+      text: `Your charge is ${cost}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Agree",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post("/parcel", data)
+          .then((res) => {
+            console.log(res.data);
+
+            if (res.data.results.acknowledged) {
+              Swal.fire({
+                title: "Parcel is processing",
+                text: "You will be notify soon.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((err) => console.log(err.message));
+      }
+    });
   };
   return (
     <div>
@@ -156,6 +156,12 @@ const SendParcel = () => {
                 className="border p-3 rounded w-full"
                 {...register("parcelWeight", {
                   required: "Parcel weight is required",
+                  validate: (value) => {
+                    if (parcelType === "document" && value > 2) {
+                      return "Documents cannot weigh more than 2kg";
+                    }
+                    return true;
+                  },
                 })}
               />
               {errors.parcelWeight && (
@@ -175,6 +181,8 @@ const SendParcel = () => {
               <div>
                 <input
                   type="text"
+                  readOnly
+                  defaultValue={user?.displayName}
                   placeholder="Sender Name"
                   className="border p-3 rounded w-full mb-2"
                   {...register("senderName", {
@@ -196,6 +204,21 @@ const SendParcel = () => {
                   {...register("senderAddress", {
                     required: "Sender address is required",
                   })}
+                />
+                {errors.senderAddress && (
+                  <p className="text-red-500 text-sm">
+                    {errors.senderAddress.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <input
+                  readOnly
+                  defaultValue={user?.email}
+                  type="email"
+                  placeholder="Email Address"
+                  className="border p-3 rounded w-full mb-2"
+                  {...register("senderEmail")}
                 />
                 {errors.senderAddress && (
                   <p className="text-red-500 text-sm">
@@ -311,6 +334,21 @@ const SendParcel = () => {
                 {errors.receiverAddress && (
                   <p className="text-red-500 text-sm">
                     {errors.receiverAddress.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Receiver Email Address"
+                  className="border p-3 rounded w-full mb-2"
+                  {...register("receiverEmail", {
+                    required: "Receiver email is required",
+                  })}
+                />
+                {errors.senderAddress && (
+                  <p className="text-red-500 text-sm">
+                    {errors.senderAddress.message}
                   </p>
                 )}
               </div>

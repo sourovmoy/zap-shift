@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useLoaderData } from "react-router";
 import { FaSearch } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const Coverage = () => {
   const searchRef = useRef(null);
@@ -14,10 +15,16 @@ const Coverage = () => {
     const district = positions.find((position) =>
       position.district.toLowerCase().includes(location.toLowerCase())
     );
+
+    if (district === undefined) {
+      toast.error("Not available");
+    }
+
     if (district) {
       const cords = [district.latitude, district.longitude];
       searchRef.current.flyTo(cords, 14);
     }
+    e.target.reset();
   };
   return (
     <div>
