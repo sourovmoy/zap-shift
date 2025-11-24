@@ -5,6 +5,7 @@ import useAxios from "../../Hooks/useAxios";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FcViewDetails } from "react-icons/fc";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcel = () => {
   const { user } = useAuth();
@@ -52,7 +53,7 @@ const MyParcel = () => {
               <th>Index</th>
               <th>Name</th>
               <th>Cost</th>
-              {/* <th>Favorite Color</th> */}
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -62,7 +63,18 @@ const MyParcel = () => {
                 <th>{index + 1}</th>
                 <td>{parcel.parcelName}</td>
                 <td>{parcel.value}</td>
-                {/* <td>Blue</td> */}
+                <td>
+                  {parcel.paymentStatus === "paid" ? (
+                    <p>Paid</p>
+                  ) : (
+                    <Link
+                      to={`/dashboard/payment/${parcel?._id}`}
+                      className="btn-primary p-2"
+                    >
+                      Pay
+                    </Link>
+                  )}
+                </td>
                 <td className=" flex items-center hover:">
                   <button className="btn relative group btn-circle">
                     <FcViewDetails />
