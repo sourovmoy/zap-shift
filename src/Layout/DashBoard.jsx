@@ -3,15 +3,18 @@ import { LuPackage } from "react-icons/lu";
 import { PiPackage } from "react-icons/pi";
 import { Link, Outlet } from "react-router";
 import Container from "../Components/Container/Container";
+import { FaHistory } from "react-icons/fa";
+import { useAuth } from "../Hooks/useAuth";
 
 const DashBoard = () => {
+  const { user } = useAuth();
   return (
     <Container>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
-          <nav className="navbar w-full">
+          <nav className="navbar w-full flex justify-between">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
@@ -33,7 +36,13 @@ const DashBoard = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="px-4">Navbar Title</div>
+            <div className="">
+              <img
+                className="h-11 w-11 rounded-full outline-3 outline-offset-2 outline-primary"
+                src={user?.photoURL}
+                alt=""
+              />
+            </div>
           </nav>
           {/* Page content here */}
           <div className="m-3 rounded-3xl p-4 ">
@@ -80,6 +89,16 @@ const DashBoard = () => {
                   {" "}
                   <LuPackage size={16} />
                   <span className="is-drawer-close:hidden">My Parcel</span>
+                </Link>
+              </li>
+              {/* payment history */}
+              <li>
+                <Link to={"/dashboard/payment-history"}>
+                  {" "}
+                  <FaHistory size={15} />
+                  <span className="is-drawer-close:hidden">
+                    Payment History
+                  </span>
                 </Link>
               </li>
 

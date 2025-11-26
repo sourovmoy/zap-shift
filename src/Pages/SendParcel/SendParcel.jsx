@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import ButtonPri from "../../Components/Button/ButtonPri";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/useAxios";
 import { useAuth } from "../../Hooks/useAuth";
 
 const SendParcel = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const axios = useAxios();
   const {
@@ -74,7 +75,7 @@ const SendParcel = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Agree",
+      confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -83,9 +84,10 @@ const SendParcel = () => {
             console.log(res.data);
 
             if (res.data.results.acknowledged) {
+              navigate("/dashboard/my-parcel");
               Swal.fire({
-                title: "Parcel is processing",
-                text: "You will be notify soon.",
+                title: "Parcel is processing ",
+                text: "Please Clear your payment to confirm your parcel",
                 icon: "success",
               });
             }
