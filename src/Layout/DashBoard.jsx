@@ -1,9 +1,8 @@
 import React from "react";
-import { LuPackage } from "react-icons/lu";
-import { PiPackage } from "react-icons/pi";
-import { Link, Outlet } from "react-router";
+import { LuBike, LuPackage } from "react-icons/lu";
+import { NavLink, Outlet } from "react-router";
 import Container from "../Components/Container/Container";
-import { FaHistory } from "react-icons/fa";
+import { FaBackspace, FaHistory, FaUsers } from "react-icons/fa";
 import { useAuth } from "../Hooks/useAuth";
 
 const DashBoard = () => {
@@ -37,11 +36,31 @@ const DashBoard = () => {
               </svg>
             </label>
             <div className="">
-              <img
-                className="h-11 w-11 rounded-full outline-3 outline-offset-2 outline-primary"
-                src={user?.photoURL}
-                alt=""
-              />
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="outline-3 rounded-full outline-lime-500"
+                >
+                  <img
+                    className="rounded-full h-11 w-11"
+                    src={user?.photoURL}
+                    alt=""
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <ul
+                  tabIndex="-1"
+                  className="dropdown-content menu bg-base-100 rounded-box z-10 p-2 shadow-sm font-semibold "
+                >
+                  <li>
+                    <p>{user?.displayName}</p>
+                  </li>
+                  <li>
+                    <p>{user?.email}</p>
+                  </li>
+                </ul>
+              </div>
             </div>
           </nav>
           {/* Page content here */}
@@ -61,47 +80,69 @@ const DashBoard = () => {
             <ul className="menu w-full grow">
               {/* List item */}
               <li>
-                <Link
+                <NavLink
                   to={"/"}
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
-                  {/* Home icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  </svg>
+                  {/* Back icon */}
+
+                  <FaBackspace />
                   <span className="is-drawer-close:hidden">Homepage</span>
-                </Link>
+                </NavLink>
               </li>
-              {/* My dashboard  */}
+              {/* users */}
               <li>
-                <Link to={"/dashboard/my-parcel"}>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Users"
+                  to={"/dashboard/users"}
+                >
+                  {" "}
+                  <FaUsers size={16} />
+                  <span className="is-drawer-close:hidden">Users</span>
+                </NavLink>
+              </li>
+              {/* My Parcel  */}
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="My Parcel"
+                  to={"/dashboard/my-parcel"}
+                >
                   {" "}
                   <LuPackage size={16} />
                   <span className="is-drawer-close:hidden">My Parcel</span>
-                </Link>
+                </NavLink>
               </li>
               {/* payment history */}
               <li>
-                <Link to={"/dashboard/payment-history"}>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Payment History"
+                  to={"/dashboard/payment-history"}
+                >
                   {" "}
                   <FaHistory size={15} />
                   <span className="is-drawer-close:hidden">
                     Payment History
                   </span>
-                </Link>
+                </NavLink>
               </li>
-
+              {/* Riders application */}
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Riders Application"
+                  to={"/dashboard/riders-application"}
+                >
+                  {" "}
+                  <LuBike size={15} />
+                  <span className="is-drawer-close:hidden">
+                    Riders Application
+                  </span>
+                </NavLink>
+              </li>
               {/* List item */}
               <li>
                 <button

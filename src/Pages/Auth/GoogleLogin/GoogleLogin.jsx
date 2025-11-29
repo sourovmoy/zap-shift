@@ -2,14 +2,22 @@ import React from "react";
 import { useAuth } from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import useAxios from "../../../Hooks/useAxios";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
+  const axios = useAxios();
   const { signInWithPopupFunc, setUser } = useAuth();
   const handelGoogleSignIn = async () => {
     await signInWithPopupFunc()
       .then((res) => {
         // console.log(res.user);
+        const userData = {
+          displayName: res.user.displayName,
+          photoURL: res.user.photoURL,
+          email: res.user.email,
+        };
+        axios.post("/user", userData).then(() => {});
 
         setUser(res.user);
         toast.success("SuccessFully Login"), navigate("/");

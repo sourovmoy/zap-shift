@@ -11,7 +11,6 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (sessionId) {
       axios.patch(`/session-status?session_id=${sessionId}`).then((res) => {
-        console.log(res.data);
         setPaymentStatus({
           transactionId: res.data.transactionId,
           trackingId: res.data.trackingId,

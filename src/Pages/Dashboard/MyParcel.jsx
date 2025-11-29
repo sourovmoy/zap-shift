@@ -6,11 +6,16 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { FcViewDetails } from "react-icons/fc";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
+import Loader from "../../Components/Loader/Loader";
 
 const MyParcel = () => {
   const { user } = useAuth();
   const axios = useAxios();
-  const { data: parcels = [], refetch } = useQuery({
+  const {
+    data: parcels = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["myParcels", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -42,6 +47,9 @@ const MyParcel = () => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="bg-white min-h-screen rounded-2xl">

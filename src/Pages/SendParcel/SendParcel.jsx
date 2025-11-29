@@ -30,21 +30,6 @@ const SendParcel = () => {
     const district = districtRegion.map((d) => d.district);
     return district;
   };
-  // deliveryInstruction: "Et ex id eum sint ex";
-  // parcelName: "Scarlett Bray";
-  // parcelType: "non-document";
-  // parcelWeight: "72";
-  // pickupInstruction: "Rerum doloremque fug";
-  // receiverAddress: "Quis blanditiis in e";
-  // receiverDistrict: "Munshiganj";
-  // receiverName: "Phelan Hamilton";
-  // receiverPhone: "+1 (537) 593-7779";
-  // receiverRegion: "Dhaka";
-  // senderAddress: "Esse aute est sit ";
-  // senderDistrict: "Mymensingh";
-  // senderName: "Kyle Levine";
-  // senderPhone: "+1 (767) 114-3156";
-  // senderRegion: "Mymensingh";
 
   const onSubmit = (data) => {
     const weight = Number(data.parcelWeight);

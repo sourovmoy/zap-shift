@@ -4,7 +4,6 @@ import { useAuth } from "../../../Hooks/useAuth";
 import useAxios from "../../../Hooks/useAxios";
 
 const PaymentHistory = () => {
-  // /payment-history?email=sanjubabasourov@gmail.com
   const { user } = useAuth();
   const axios = useAxios();
   const { data: payments = [] } = useQuery({
@@ -12,14 +11,13 @@ const PaymentHistory = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const result = await axios.get(`/payment-history?email=${user?.email}`);
-      console.log(payments);
 
       return result.data.results;
     },
   });
 
   return (
-    <div>
+    <div className="p-5 shadow-2xl rounded-lg">
       <table className="w-full text-left">
         <thead className="bg-gray-100">
           <tr>
@@ -33,16 +31,19 @@ const PaymentHistory = () => {
 
         <tbody>
           {payments.map((item) => (
-            <tr key={item._id} className="border-b">
+            <tr
+              key={item._id}
+              className="border-b shadow-sm hover:bg-gray-50 hover:scale-102"
+            >
               <td className="px-4 py-3">{item.parcelName}</td>
 
-              <td className="px-4 py-3">
-                <div className="font-medium">{item.recipientName}</div>
+              <td className="px-4 py-3 ">
+                <div className="font-medium">{item.receiverName}</div>
                 <div className="text-sm text-gray-600">
-                  {item.recipientAddress}
+                  {item.receiverAddress}
                 </div>
                 <div className="text-sm text-gray-600">
-                  {item.recipientPhone}
+                  {item.receiverPhone}
                 </div>
               </td>
 

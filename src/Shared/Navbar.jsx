@@ -75,7 +75,6 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-
           <Logo />
         </div>
         <div className="navbar-center hidden lg:flex">

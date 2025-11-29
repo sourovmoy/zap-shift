@@ -19,6 +19,27 @@ const Payment = () => {
   if (isLoading) {
     return <Loader />;
   }
+  console.log(parcel);
+  // createdAt: "2025-11-26T18:15:47.917Z";
+  // deliveryInstruction: "Aspernatur velit rep";
+  // parcelName: "Xerxes Livingston";
+  // parcelType: "non-document";
+  // parcelWeight: "56";
+  // pickupInstruction: "Pariatur At ipsum l";
+  // receiverAddress: "Amet ut perferendis";
+  // receiverDistrict: "Select your District";
+  // receiverEmail: "baxycyby@mailinator.com";
+  // receiverName: "Doris Mcgee";
+  // receiverPhone: "+1 (911) 909-6861";
+  // receiverRegion: "Select your Region";
+  // senderAddress: "Enim incididunt quis";
+  // senderDistrict: "Sunamganj";
+  // senderEmail: "sourovmmoysanju@gmail.com";
+  // senderName: "Sourov Dash";
+  // senderPhone: "+1 (792) 315-3772";
+  // senderRegion: "Sylhet";
+  // value: 2310;
+  // _id: "692743d3fd7b491d5ee29085";
 
   const handelPayment = async () => {
     const paymentInfo = {
@@ -26,7 +47,11 @@ const Payment = () => {
       parcelId: parcel._id,
       senderEmail: parcel.senderEmail,
       parcelName: parcel.parcelName,
+      receiverName: parcel.receiverName,
+      receiverAddress: parcel.receiverAddress,
+      receiverPhone: parcel.receiverPhone,
     };
+
     try {
       const res = await axios.post("/create-checkout-session", paymentInfo);
       window.location.href = res.data.url;

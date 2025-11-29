@@ -3,14 +3,15 @@ import ButtonPri from "../../../Components/Button/ButtonPri";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
-import axios from "axios";
 import { useAuth } from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import Loader from "../../../Components/Loader/Loader";
+import useAxios from "../../../Hooks/useAxios";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axios = useAxios();
   const {
     createUserWithEmailAndPasswordFunc,
     updateProfileFunc,
@@ -34,17 +35,24 @@ const Register = () => {
         const uri = `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_IMAGEBB_API
         }`;
-        axios.post(uri, fromData).then((res) =>
-          updateProfileFunc(name, res.data.data.display_url).then(
-            () => toast.success("Successfully create an account"),
-            setUser({
-              ...result.user,
-              displayName: name,
-              photoURL: res.data.data.display_url,
-            }),
-            navigate(location.state || "/")
-          )
-        );
+        axios.post(uri, fromData).then((res) => {
+          const photoURL = res.data.data.display_url;
+          const userData = {
+            displayName: name,
+            photoURL: photoURL,
+            email: data.email,
+          };
+          axios.post("/user", userData).then(() => {});
+          updateProfileFunc(name, photoURL).then(() => {
+            toast.success("Successfully create an account"),
+              setUser({
+                ...result.user,
+                displayName: name,
+                photoURL: photoURL,
+              }),
+              navigate(location.state || "/");
+          });
+        });
       })
       .catch((err) => {
         if (err) {

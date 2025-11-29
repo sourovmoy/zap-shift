@@ -18,6 +18,8 @@ import Payment from "../Pages/Dashboard/Payment";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel";
 import PaymentHistory from "../Pages/Dashboard/Payment/PaymentHistory";
+import RiderRequest from "../Pages/Dashboard/RiderRequest/RiderRequest";
+import Users from "../Pages/Dashboard/Users/Users";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +64,7 @@ export const router = createBrowserRouter([
             <BeARide />
           </PrivetRoute>
         ),
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
       },
     ],
   },
@@ -84,6 +87,10 @@ export const router = createBrowserRouter([
     Component: DashBoard,
     children: [
       {
+        path: "/dashboard/users",
+        Component: Users,
+      },
+      {
         path: "/dashboard/my-parcel",
         Component: MyParcel,
       },
@@ -102,6 +109,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/payment-history",
         Component: PaymentHistory,
+      },
+      {
+        path: "/dashboard/riders-application",
+        Component: RiderRequest,
       },
     ],
   },
