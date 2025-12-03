@@ -20,6 +20,8 @@ import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel";
 import PaymentHistory from "../Pages/Dashboard/Payment/PaymentHistory";
 import RiderRequest from "../Pages/Dashboard/RiderRequest/RiderRequest";
 import Users from "../Pages/Dashboard/Users/Users";
+import AdminRoute from "../PrivetRoute/AdminRoute";
+import AddRider from "../Pages/Dashboard/AddRider/AddRider";
 
 export const router = createBrowserRouter([
   {
@@ -84,11 +86,15 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    Component: DashBoard,
+    element: <DashBoard />,
     children: [
       {
         path: "/dashboard/users",
-        Component: Users,
+        element: (
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/my-parcel",
@@ -112,7 +118,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/riders-application",
-        Component: RiderRequest,
+        element: (
+          <AdminRoute>
+            <RiderRequest />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-rider",
+        element: (
+          <AdminRoute>
+            <AddRider />
+          </AdminRoute>
+        ),
       },
     ],
   },

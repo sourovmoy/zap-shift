@@ -2,11 +2,17 @@ import React from "react";
 import { LuBike, LuPackage } from "react-icons/lu";
 import { NavLink, Outlet } from "react-router";
 import Container from "../Components/Container/Container";
-import { FaBackspace, FaHistory, FaUsers } from "react-icons/fa";
-import { useAuth } from "../Hooks/useAuth";
+import {
+  FaBackspace,
+  FaHistory,
+  FaTruckMonster,
+  FaUsers,
+} from "react-icons/fa";
+import useRole from "../Hooks/useRole";
+import Logout from "../Components/LogOut/Logout";
 
 const DashBoard = () => {
-  const { user } = useAuth();
+  const { role } = useRole();
   return (
     <Container>
       <div className="drawer lg:drawer-open">
@@ -36,31 +42,7 @@ const DashBoard = () => {
               </svg>
             </label>
             <div className="">
-              <div className="dropdown dropdown-end">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="outline-3 rounded-full outline-lime-500"
-                >
-                  <img
-                    className="rounded-full h-11 w-11"
-                    src={user?.photoURL}
-                    alt=""
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <ul
-                  tabIndex="-1"
-                  className="dropdown-content menu bg-base-100 rounded-box z-10 p-2 shadow-sm font-semibold "
-                >
-                  <li>
-                    <p>{user?.displayName}</p>
-                  </li>
-                  <li>
-                    <p>{user?.email}</p>
-                  </li>
-                </ul>
-              </div>
+              <Logout />
             </div>
           </nav>
           {/* Page content here */}
@@ -91,18 +73,48 @@ const DashBoard = () => {
                   <span className="is-drawer-close:hidden">Homepage</span>
                 </NavLink>
               </li>
+              {role === "admin" && (
+                <>
+                  <li>
+                    <NavLink
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Users"
+                      to={"/dashboard/users"}
+                    >
+                      {" "}
+                      <FaUsers size={16} />
+                      <span className="is-drawer-close:hidden">Users</span>
+                    </NavLink>
+                  </li>
+                  {/* Riders application */}
+                  <li>
+                    <NavLink
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Riders Application"
+                      to={"/dashboard/riders-application"}
+                    >
+                      {" "}
+                      <LuBike size={15} />
+                      <span className="is-drawer-close:hidden">
+                        Riders Application
+                      </span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Add Rider"
+                      to={"/dashboard/add-rider"}
+                    >
+                      {" "}
+                      <FaTruckMonster size={15} />
+                      <span className="is-drawer-close:hidden">Add Rider</span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
               {/* users */}
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Users"
-                  to={"/dashboard/users"}
-                >
-                  {" "}
-                  <FaUsers size={16} />
-                  <span className="is-drawer-close:hidden">Users</span>
-                </NavLink>
-              </li>
+
               {/* My Parcel  */}
               <li>
                 <NavLink
@@ -129,20 +141,7 @@ const DashBoard = () => {
                   </span>
                 </NavLink>
               </li>
-              {/* Riders application */}
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Riders Application"
-                  to={"/dashboard/riders-application"}
-                >
-                  {" "}
-                  <LuBike size={15} />
-                  <span className="is-drawer-close:hidden">
-                    Riders Application
-                  </span>
-                </NavLink>
-              </li>
+
               {/* List item */}
               <li>
                 <button

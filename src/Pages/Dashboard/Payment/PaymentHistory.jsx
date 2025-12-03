@@ -11,7 +11,6 @@ const PaymentHistory = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const result = await axios.get(`/payment-history?email=${user?.email}`);
-
       return result.data.results;
     },
   });
@@ -25,7 +24,7 @@ const PaymentHistory = () => {
             <th className="px-4 py-3">Recipient Info</th>
             <th className="px-4 py-3">Tracking Number</th>
             <th className="px-4 py-3">Payment Info</th>
-            <th className="px-4 py-3">Action</th>
+            {/* <th className="px-4 py-3">Action</th> */}
           </tr>
         </thead>
 
@@ -54,11 +53,11 @@ const PaymentHistory = () => {
                 <span className="text-green-600">({item.paymentStatus})</span>
               </td>
 
-              <td className="px-4 py-3">
+              {/* <td className="px-4 py-3">
                 <button className="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200">
                   View
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

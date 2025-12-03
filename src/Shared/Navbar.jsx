@@ -3,18 +3,12 @@ import Logo from "../Components/Logo/Logo";
 import { NavLink } from "react-router";
 import ButtonPri from "../Components/Button/ButtonPri";
 import { useAuth } from "../Hooks/useAuth";
-import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import Logout from "../Components/LogOut/Logout";
 
 const Navbar = () => {
-  const { user, signOutFunc, loader } = useAuth();
-  const handelLogOut = () => {
-    try {
-      signOutFunc().then(() => toast.success("Log out"));
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  const { user, loader } = useAuth();
+
   const links = (
     <>
       <li>
@@ -35,12 +29,14 @@ const Navbar = () => {
       {/* <li>
         <NavLink to={"/pricing"}>Pricing</NavLink>
       </li> */}
+
       <li>
-        <NavLink to={"/be-a-ride"}>Be a Rider</NavLink>
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
       </li>
+
       {user && (
         <li>
-          <NavLink to={"/dashboard"}>Dashboard</NavLink>
+          <NavLink to={"/be-a-ride"}>Be a Rider</NavLink>
         </li>
       )}
     </>
@@ -88,34 +84,7 @@ const Navbar = () => {
             <ImSpinner9 className="animate-spin" />
           ) : user ? (
             <div className="flex items-center gap-5">
-              <div className="dropdown dropdown-end">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="outline-3 rounded-full outline-lime-500"
-                >
-                  <img
-                    className="rounded-full h-11 w-11"
-                    src={user?.photoURL}
-                    alt=""
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <ul
-                  tabIndex="-1"
-                  className="dropdown-content menu bg-base-100 rounded-box z-10 p-2 shadow-sm font-semibold "
-                >
-                  <li>
-                    <p>{user?.displayName}</p>
-                  </li>
-                  <li>
-                    <p>{user?.email}</p>
-                  </li>
-                  <li>
-                    <ButtonPri onClick={handelLogOut} label={"Logout"} />
-                  </li>
-                </ul>
-              </div>
+              <Logout />
             </div>
           ) : (
             <ButtonPri to={"/login"} label={"Login"} />

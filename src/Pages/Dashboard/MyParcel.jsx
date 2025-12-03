@@ -61,7 +61,8 @@ const MyParcel = () => {
               <th>Index</th>
               <th>Name</th>
               <th>Cost</th>
-              <th>Status</th>
+              <th>Payment Status</th>
+              <th>Delivery Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -83,19 +84,30 @@ const MyParcel = () => {
                     </Link>
                   )}
                 </td>
-                <td className=" flex items-center hover:">
+                <td>
+                  <p
+                    className={
+                      parcel.deliveryStatus === "delivered"
+                        ? "text-green-600 font-medium"
+                        : "text-yellow-600 font-medium"
+                    }
+                  >
+                    {parcel.deliveryStatus}
+                  </p>
+                </td>
+                <td className=" flex gap-2 items-center hover:">
                   <button className="btn relative group btn-circle">
                     <FcViewDetails />
                     <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2  hidden group-hover:block bg-black text-white text-xs px-2 py-1 rounded">
                       View details
                     </span>
                   </button>
-                  <button className="btn btn-circle mx-2 relative group ">
+                  {/* <button className="btn btn-circle mx-2 relative group ">
                     <FaEdit />
                     <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2  hidden group-hover:block bg-black text-white text-xs px-2 py-1 rounded">
                       Edit
                     </span>
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => handelDelete(parcel._id)}
                     className="btn btn-circle relative group"

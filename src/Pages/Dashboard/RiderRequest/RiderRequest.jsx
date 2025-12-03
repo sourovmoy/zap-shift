@@ -42,7 +42,8 @@ const RiderRequest = () => {
               <th className="px-4 py-3">name</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">District</th>
-              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Work Status</th>
+              <th className="px-4 py-3">Application Status</th>
               <th className="px-4 py-3">Action</th>
             </tr>
           </thead>
@@ -62,6 +63,17 @@ const RiderRequest = () => {
                 </td>
 
                 <td className="px-4 py-3 font-semibold">{item.district}</td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`text-green-600 ${
+                      item.workStatus === "available"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    ({item.workStatus})
+                  </span>
+                </td>
 
                 <td className="px-4 py-3">
                   <span
