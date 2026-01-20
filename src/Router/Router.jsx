@@ -22,6 +22,8 @@ import RiderRequest from "../Pages/Dashboard/RiderRequest/RiderRequest";
 import Users from "../Pages/Dashboard/Users/Users";
 import AdminRoute from "../PrivetRoute/AdminRoute";
 import AddRider from "../Pages/Dashboard/AddRider/AddRider";
+import RiderRoute from "../PrivetRoute/RiderRoute";
+import RiderTask from "../Pages/Dashboard/RidersTask/RiderTask";
 
 export const router = createBrowserRouter([
   {
@@ -115,6 +117,14 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/payment-history",
         Component: PaymentHistory,
+      },
+      {
+        path: "/dashboard/my-task",
+        element: (
+          <RiderRoute>
+            <RiderTask />
+          </RiderRoute>
+        ),
       },
       {
         path: "/dashboard/riders-application",

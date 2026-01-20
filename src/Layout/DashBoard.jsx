@@ -5,6 +5,7 @@ import Container from "../Components/Container/Container";
 import {
   FaBackspace,
   FaHistory,
+  FaTasks,
   FaTruckMonster,
   FaUsers,
 } from "react-icons/fa";
@@ -73,6 +74,7 @@ const DashBoard = () => {
                   <span className="is-drawer-close:hidden">Homepage</span>
                 </NavLink>
               </li>
+              {/* Admin only */}
               {role === "admin" && (
                 <>
                   <li>
@@ -111,6 +113,23 @@ const DashBoard = () => {
                       <span className="is-drawer-close:hidden">Add Rider</span>
                     </NavLink>
                   </li>
+                </>
+              )}
+              {/* rider only */}
+              {role === "rider" && (
+                <>
+                  <li>
+                    <NavLink
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="My task"
+                      to={"/dashboard/my-task"}
+                    >
+                      {" "}
+                      <FaTasks size={16} />
+                      <span className="is-drawer-close:hidden">My task</span>
+                    </NavLink>
+                  </li>
+                  {/* Riders application */}
                 </>
               )}
               {/* users */}

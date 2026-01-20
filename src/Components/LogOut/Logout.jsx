@@ -3,9 +3,11 @@ import { useAuth } from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import ButtonPri from "../Button/ButtonPri";
 import { useNavigate } from "react-router";
+import useRole from "../../Hooks/useRole";
 
 const Logout = () => {
   const navigate = useNavigate();
+  const { role } = useRole();
   const { user, signOutFunc } = useAuth();
   const handelLogOut = () => {
     try {
@@ -43,6 +45,9 @@ const Logout = () => {
         </li>
         <li>
           <ButtonPri onClick={handelLogOut} label={"Logout"} />
+        </li>
+        <li>
+          <p className="font-semibold">{role}</p>
         </li>
       </ul>
     </div>

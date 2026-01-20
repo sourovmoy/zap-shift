@@ -14,12 +14,12 @@ const BeARide = () => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     axios.post("/rider", data).then((res) => {
-      console.log(res.data);
-
+      reset();
       if (res.data.results.insertedId) {
         Swal.fire({
           position: "top-end",

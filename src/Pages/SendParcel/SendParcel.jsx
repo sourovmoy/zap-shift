@@ -5,6 +5,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/useAxios";
 import { useAuth } from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const SendParcel = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const SendParcel = () => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -66,10 +68,8 @@ const SendParcel = () => {
         axios
           .post("/parcel", data)
           .then((res) => {
-            console.log(res.data);
-
             if (res.data.results.acknowledged) {
-              navigate("/dashboard/my-parcel");
+              reset(), navigate("/dashboard/my-parcel");
               Swal.fire({
                 title: "Parcel is processing ",
                 text: "Please Clear your payment to confirm your parcel",
@@ -77,7 +77,7 @@ const SendParcel = () => {
               });
             }
           })
-          .catch((err) => console.log(err.message));
+          .catch((err) => toast.error(err.message));
       }
     });
   };
